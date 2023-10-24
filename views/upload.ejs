@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload data</title>
+</head>
+<body>
+    <div>
+    </div>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <h3>Person's info</h3>
+        <p>Name:</p>
+        <input type="text" name="name" id="" required>
+        <p>Age:</p>
+        <input type="number" name="age" id="" required>
+        <p>Gender:</p>
+        <select name="gender" id="">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        <p>Area of incidence:</p>
+        <input type="text" name="incidentPlace" id="">
+        <p>Registration date:</p>
+        <input type="date" name="registrationDate" id=""  required>
+        <p>Police Station</p>
+        <input type="text" name="policeStation" id=""  required>
+        <p>District</p>
+        <input type="text" name="district" id=""  required>
+        <h3>Upload a photo:</h3>
+        <input type="file" name="image" id="" accept="image/png, image/gif, image/jpeg" required>
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

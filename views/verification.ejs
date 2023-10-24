@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>verify Yourself</title>
+</head>
+<body>
+    <div>
+        <a  href="/">home</a>
+    </div>
+    <div>
+        <h2><%=status%></h2>
+    </div>
+    <div>
+        <form action="/sendOtp" method="post" id="info-form">
+            <input type="hidden" name="missingId" id="" value="<%= missingId %>">
+            <input type="text" name="name" id="name" placeholder="Name">
+            <input type="number" name="phone" id="phone" placeholder="Phone">
+            <button type="submit" id="send-otp">Get OTP</button>
+        </form>
+    </div>
+    <div>
+        <form action="/verifyOtp" method="post">
+            <input type="hidden" name="missingId" id="" value="<%= missingId %>">
+            <input type="hidden" name="name" id="name2">
+            <input type="hidden" name="phone" id="phone2">
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+            <input type="hidden" name="otp" id="otp-input" placeholder="Enter OTP">
+            <input type="hidden" name="submit" value="submit" id="submit-btn">
+        </form>
+    </div>
+</body>
+<script>
+    const form = document.getElementById("info-form");
+
+    window.onload = function() {
+            getLocation();
+    };
+
+    function getLocation() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                document.getElementById("latitude").value = latitude;
+                document.getElementById("longitude").value = longitude;
+                document.getElementById("locationDisplay").textContent = "Latitude: " + latitude + ", Longitude: " + longitude;
+                
+                // Automatically submit the form when the location is obtained
+                document.getElementById("locationForm").submit();
+            });
+        } else {
+            alert("Geolocation is not available in your browser");
+        }
+    }
+
+    form.addEventListener("submit", (e)=>{
+        document.getElementById("otp-input").type = "number";
+        document.getElementById("submit-btn").type = "submit";
+        document.getElementById("phone2").value = document.getElementById("phone").value;
+        document.getElementById("name2").value = document.getElementById("name").value;
+    });
+</script>
+</html>

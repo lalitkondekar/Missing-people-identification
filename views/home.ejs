@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <a href="/upload">upload</a>
+    <a href="/search">search</a>
+    <hr>
+    <div>
+        <form action="/searchFace" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/png, image/gif, image/jpeg" required>
+            <button type="submit">Check</button>
+        </form>
+    </div>
+    
+    <hr>
+</body>
+</html>

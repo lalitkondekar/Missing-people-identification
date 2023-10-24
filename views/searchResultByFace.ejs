@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <div>
+        <img src="/searched/<%= filename %>" alt="" width="150px">
+    </div>
+    <div>
+        <h3>Search Results: </h3>
+        <ul>
+            <% matchingPeople.map((person)=>{ %>
+
+            <li>
+                <div>
+                    <a href="/person/<%= person %>"><img src="/uploads/<%= person %>" width="150px"></a>
+                </div>
+            </li>
+            <%})%>
+        </ul>
+    </div>
+</body>
+</html>

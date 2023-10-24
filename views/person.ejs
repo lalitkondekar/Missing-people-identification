@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=person.name%></title>
+</head>
+<body>
+    <div>
+        <img src="/uploads/<%= person.image %>" width="150px">
+        <h3>NAME: <%= person.name.toUpperCase() %></h3>
+        <h4>AGE: <%= person.age %></h4>
+        <h4>REGISTRATION DATE: <%= person.registrationDate %></h4>
+        <h4>PLACE OF INCIDENCE: <%= person.incidentPlace.toUpperCase() %></h4>
+        <h4>POLICE STATION: <%= person.policeStation.toUpperCase() %></h4>
+        <h4>DISTRICT: <%= person.district.toUpperCase() %></h4>
+    </div>
+    <a href="/inform/<%= person._id %>"><button style="background-color: green;padding: 10px;">INFORM TO POLICE</button></a>
+    
+</body>
+</html>
