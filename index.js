@@ -53,15 +53,15 @@ Promise.all([
 
 //Routes
 app.get("/", (req,res)=>{
-    res.render("home");
+    res.render("home", {page_name : "home"});
 })
 
 app.get("/search", (req,res)=>{
-    res.render("search");
+    res.render("search", {page_name : "search"});
 })
 
 app.get("/upload", (req,res)=>{
-    res.render("upload");
+    res.render("upload", {page_name : "upload"});
 })
 
 app.post("/upload", (req, res) => {
@@ -285,8 +285,7 @@ app.post("/verifyOtp", (req,res)=>{
         .then(()=>{
             console.log("location saved successfully");
             sendMailToPolice(policeEmail,entry); //sending police mail with infomed info entry
-            res.send(`We have informed to the police station...
-            <a href="/">Home</a>`);
+            res.render("successfullyInformed");
         })
         .catch((err)=>{
             console.error("error in saving location", err);

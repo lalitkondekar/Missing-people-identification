@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>verify Yourself</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/6c7c0a9da6.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div>
-        <a  href="/" id="home-button">home</a>
+        <button id="back-button" onclick="window.history.back()" type="button" class="pl-4 pr-4 text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
     </div>
     <div>
         <h2><%=status%></h2>
@@ -15,8 +20,8 @@
     <div>
         <form action="/sendOtp" class="form" method="post" id="info-form">
             <input type="hidden" name="missingId" id="" value="<%= missingId %>">
-            <input type="text" name="name" id="name" placeholder="Name">
-            <input type="number" name="phone" id="phone" placeholder="Phone">
+            <input type="text" name="name" id="name" placeholder="Name" required>
+            <input type="number" name="phone" id="phone" placeholder="Phone" required>
             <button type="submit" id="send-otp">Get OTP</button>
         </form>
     </div>
@@ -34,15 +39,16 @@
 </body>
 <script>
     const form = document.getElementById("info-form");
-    const homeButton = document.getElementById("home-button");
+    const backButton = document.getElementById("back-button");
 
-    homeButton.addEventListener("click",async (e)=>{
+    backButton.addEventListener("click",async (e)=>{
         try{
             const response = await fetch("/clearOtpMap");
         }catch(err){
             console.log("error clearing otpMap",err);
         }
     });
+
     window.addEventListener("beforeunload",async (e)=>{
         try{
             const response = await fetch("/clearOtpMap");
