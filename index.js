@@ -302,6 +302,11 @@ app.post("/verifyOtp", (req,res)=>{
     // this is working fine 
 });
 
+// extra useful routes
+app.get("/clearOtpMap", (req,res)=>{
+    otpMap.clear();
+})
+
 
 //Listening port
 app.listen(PORT, () => console.log("server running at port ", PORT));

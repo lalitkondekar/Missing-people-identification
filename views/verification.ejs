@@ -7,13 +7,13 @@
 </head>
 <body>
     <div>
-        <a  href="/">home</a>
+        <a  href="/" id="home-button">home</a>
     </div>
     <div>
         <h2><%=status%></h2>
     </div>
     <div>
-        <form action="/sendOtp" method="post" id="info-form">
+        <form action="/sendOtp" class="form" method="post" id="info-form">
             <input type="hidden" name="missingId" id="" value="<%= missingId %>">
             <input type="text" name="name" id="name" placeholder="Name">
             <input type="number" name="phone" id="phone" placeholder="Phone">
@@ -34,6 +34,22 @@
 </body>
 <script>
     const form = document.getElementById("info-form");
+    const homeButton = document.getElementById("home-button");
+
+    homeButton.addEventListener("click",async (e)=>{
+        try{
+            const response = await fetch("/clearOtpMap");
+        }catch(err){
+            console.log("error clearing otpMap",err);
+        }
+    });
+    window.addEventListener("beforeunload",async (e)=>{
+        try{
+            const response = await fetch("/clearOtpMap");
+        }catch(err){
+            console.log("error clearing otpMap",err);
+        }
+    })
 
     window.onload = function() {
             getLocation();
