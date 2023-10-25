@@ -53,31 +53,32 @@ const faceDataSchema = new mongoose.Schema({
 
 // informed info schema
 const informedInfoSchema = new mongoose.Schema({
-    informerName : {
+    missingId : {
         type : String,
         required : true
     },
-    informerPhone : {
-        type : Number,
-        required : true
-    },
-    informedID : {
-        type : String,
-        required : true
-    },
-    informedLocation : {
-        type : {
+    informer : [{
+        name : {
             type : String,
-            enum : ['Point']
+            required : true
         },
-        coordinates: {
-            type: [Number], // [longitude, latitude]
-            required: true
+        phone : {
+            type : Number,
+            required : true
+        },
+        location : {
+            type : {
+                type : String,
+                enum : ['Point']
+            },
+            coordinates: {
+                type: [Number], // [longitude, latitude]
+            }
+        },
+        otherInfo : {
+            type : String
         }
-    },
-    otherInfo : {
-        type : String,
-    }
+    }]
 });
 
 informedInfoSchema.index({ location: '2dsphere' });

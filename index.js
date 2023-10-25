@@ -72,7 +72,7 @@ app.get("/search", (req,res)=>{
 })
 
 app.get("/upload", (req,res)=>{
-    res.render("upload", {page_name : "upload"});
+    res.render("upload", {message : "Register the missing person",page_name : "upload"});
 })
 
 app.post("/upload", (req, res) => {
@@ -97,6 +97,23 @@ app.post("/upload", (req, res) => {
             // No face detected, delete the uploaded image and send a message
             fs.unlinkSync(req.file.path); // Delete the image
             return res.render("upload", { message: "No face detected in the uploaded image.",page_name: "upload" });
+        }
+
+        // Use the face descriptor from the uploaded image for matching
+        const uploadedImageDescriptor = faceDetectionResults[0].descriptor;
+
+        // Query the database to find matching face descriptors
+        const matchingImages = await FaceData.find({}).exec();
+
+        for (const entry of matchingImages) {
+            const storedImageDescriptor = entry.faceDescriptor; // No need for new faceapi.FaceDescriptor()
+            const distance = faceapi.euclideanDistance(uploadedImageDescriptor, storedImageDescriptor);
+
+            // You can adjust the threshold for matching
+            if (distance < 0.4) {
+                fs.unlinkSync(req.file.path); // Delete the image
+                return res.render("upload", { message: "The person in image already exist.",page_name: "upload" });
+            }
         }
 
         // Face detected, proceed with storing missing person's entry
@@ -201,6 +218,7 @@ app.post("/searchFace", async (req, res) => {
             }
 
             if (matchingFileNames.length > 0) {
+                console.log(matchingFileNames);
                 res.render("searchResultByFace",{
                     matchingPeople : matchingFileNames,
                     filename : req.file.filename
@@ -274,7 +292,7 @@ app.post("/sendOtp",async (req,res)=>{
 
 });
 
-app.post("/verifyOtp", (req,res)=>{
+app.post("/verifyOtp",async (req,res)=>{
     const missingId = String(req.body.missingId);
     const phone = String(req.body.phone);
     const otp = String(req.body.otp);
@@ -282,26 +300,57 @@ app.post("/verifyOtp", (req,res)=>{
     if(otpMap.get(phone) === otp){
         console.log("correct");
         otpMap.clear();
+        
+        const data = await informedInfo.find({missingId : req.body.missingId});
+        console.log(data);
 
-        const entry = new informedInfo({
-            informerName : req.body.name,
-            informerPhone : req.body.phone,
-            informedID : req.body.missingId,
-            informedLocation : {
-                type : 'Point',
-                coordinates : [req.body.longitude,req.body.latitude]
-            }
-        });
-        entry.save()
-        .then(()=>{
-            console.log("location saved successfully");
-            sendMailToPolice(policeEmail,entry); //sending police mail with infomed info entry
+        if(data.length != 0){
+            const entry = await informedInfo.findOneAndUpdate(
+                {missingId : req.body.missingId},
+                {
+                    $push : {
+                        informer : {
+                            name : req.body.name,
+                            phone : phone,
+                            location : {
+                                type : 'Point',
+                                coordinates : [req.body.longitude,req.body.latitude]
+                            }
+                        }
+                    }
+                },
+                {new : true }
+            );
+            console.log(entry);
+
+            console.log("location saved successfully added");
+            sendMailToPolice(policeEmail , entry); //sending police mail with informed info entry
             res.render("successfullyInformed");
-        })
-        .catch((err)=>{
-            console.error("error in saving location", err);
-                res.redirect(`/inform/${missingId}`)
-        })
+
+        }else{
+            const entry = new informedInfo({
+                missingId : req.body.missingId,
+                informer : {
+                    name : req.body.name,
+                    phone : phone,
+                    location : {
+                        type : 'Point',
+                        coordinates : [req.body.longitude,req.body.latitude]
+                    }
+                }
+            });
+            entry.save()
+                .then(()=>{
+                    console.log("location saved successfully");
+                    sendMailToPolice(policeEmail,entry); //sending police mail with infomed info entry
+                    res.render("successfullyInformed");
+                })
+                .catch((err)=>{
+                    console.error("error in saving location", err);
+                    res.redirect(`/inform/${missingId}`)
+            })
+        }
+        otpMap.clear();
     }else{
         console.log("incorrect");
         otpMap.clear();
