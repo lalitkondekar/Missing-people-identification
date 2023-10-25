@@ -29,6 +29,8 @@
                 margin-left: auto;
                 margin-right: auto;
                 justify-content: center;
+                width: 90%;
+                overflow: hidden;
             }
             #logo-mobile{
                 display: flex;
@@ -38,11 +40,13 @@
                 font-size: 18px;
                 padding: 5px 10px;
                 width: 120px;
+                margin-bottom: 10px;
             }
             #form-main{
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                width: 95%;
             }
             #font-main{
                 font-size: 22px;
@@ -52,6 +56,11 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
+            }
+            #dash-container{
+                width: 80%;
+                display: flex;
+                justify-content: center;
             }
         }
         .mobile-menu{
@@ -159,8 +168,10 @@
                                 </form>
 
 
-                                <div class="py-4">
-                                    <div class="rounded-lg bg-gray-50 h-96"></div>
+                                <div class="py-4 bg-gray-50" id="dash-container">
+                                    <div >
+                                        <%- include('./dashboard'); %>
+                                    </div>
                                 </div>
 
                             </div>

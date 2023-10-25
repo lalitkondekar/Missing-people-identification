@@ -52,8 +52,19 @@ Promise.all([
 
 
 //Routes
-app.get("/", (req,res)=>{
-    res.render("home", {page_name : "home"});
+app.get("/",async (req,res)=>{
+    const missingEntries = await missingPerson.find({});
+    const informedEntries = await informedInfo.find({});
+    
+    // lengths 
+    const totalMissingEntries = missingEntries.length;
+    const totalInformedEntries = informedEntries.length;
+
+    res.render("home", {
+        page_name : "home",
+        totalMissingEntries : totalMissingEntries,
+        totalInformedEntries : totalInformedEntries
+    });
 })
 
 app.get("/search", (req,res)=>{
@@ -85,7 +96,7 @@ app.post("/upload", (req, res) => {
         if (faceDetectionResults.length === 0) {
             // No face detected, delete the uploaded image and send a message
             fs.unlinkSync(req.file.path); // Delete the image
-            return res.render("upload", { message: "No face detected in the uploaded image." });
+            return res.render("upload", { message: "No face detected in the uploaded image.",page_name: "upload" });
         }
 
         // Face detected, proceed with storing missing person's entry
@@ -304,6 +315,20 @@ app.post("/verifyOtp", (req,res)=>{
 // extra useful routes
 app.get("/clearOtpMap", (req,res)=>{
     otpMap.clear();
+})
+
+app.get("/dashboard",async (req,res)=>{
+    const missingEntries = await missingPerson.find({});
+    const informedEntries = await informedInfo.find({});
+    
+    // lengths 
+    const totalMissingEntries = missingEntries.length;
+    const totalInformedEntries = informedEntries.length;
+
+    res.render("dashboard",{
+        totalMissingEntries : totalMissingEntries,
+        totalInformedEntries : totalInformedEntries
+    })
 })
 
 
