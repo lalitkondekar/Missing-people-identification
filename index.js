@@ -281,7 +281,7 @@ app.post("/verifyOtp", (req,res)=>{
 
     if(otpMap.get(phone) === otp){
         console.log("correct");
-        delete otpMap.phone;
+        otpMap.clear();
 
         const entry = new informedInfo({
             informerName : req.body.name,
@@ -304,7 +304,7 @@ app.post("/verifyOtp", (req,res)=>{
         })
     }else{
         console.log("incorrect");
-        delete otpMap.phone;
+        otpMap.clear();
         res.render("verification",{missingId:missingId,status:"incorrect otp try again"});
         
     }
