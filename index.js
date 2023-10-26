@@ -55,15 +55,21 @@ Promise.all([
 app.get("/",async (req,res)=>{
     const missingEntries = await missingPerson.find({});
     const informedEntries = await informedInfo.find({});
+    const maleEntries = await missingPerson.find({gender : "male"});
+    const femaleEntries = await missingPerson.find({gender : "female"});
     
     // lengths 
     const totalMissingEntries = missingEntries.length;
     const totalInformedEntries = informedEntries.length;
+    const totalMaleEntries = maleEntries.length;
+    const totalFemaleEntries = femaleEntries.length;
 
     res.render("home", {
         page_name : "home",
         totalMissingEntries : totalMissingEntries,
-        totalInformedEntries : totalInformedEntries
+        totalInformedEntries : totalInformedEntries,
+        totalMaleEntries : totalMaleEntries,
+        totalFemaleEntries : totalFemaleEntries
     });
 })
 
@@ -369,14 +375,21 @@ app.get("/clearOtpMap", (req,res)=>{
 app.get("/dashboard",async (req,res)=>{
     const missingEntries = await missingPerson.find({});
     const informedEntries = await informedInfo.find({});
+    const maleEntries = await missingPerson.find({gender : "male"});
+    const femaleEntries = await missingPerson.find({gender : "female"});
     
     // lengths 
     const totalMissingEntries = missingEntries.length;
     const totalInformedEntries = informedEntries.length;
+    const totalMaleEntries = maleEntries.length;
+    const totalFemaleEntries = femaleEntries.length;
 
     res.render("dashboard",{
         totalMissingEntries : totalMissingEntries,
-        totalInformedEntries : totalInformedEntries
+        totalInformedEntries : totalInformedEntries,
+        totalMaleEntries : totalMaleEntries,
+        totalFemaleEntries : totalFemaleEntries
+        
     })
 })
 
