@@ -213,6 +213,7 @@ app.post("/searchFace", async (req, res) => {
         .withFaceLandmarks()
         .withFaceDescriptors();
 
+<<<<<<< HEAD
       if (faceDetectionResults.length === 0) {
         fs.unlinkSync(req.file.path); // Delete the image
         res.send(`
@@ -240,6 +241,34 @@ app.post("/searchFace", async (req, res) => {
             </button>
         </div>
         <script src="https://kit.fontawesome.com/6c7c0a9da6.js" crossorigin="anonymous"></script>
+=======
+            if (faceDetectionResults.length === 0) {
+                fs.unlinkSync(req.file.path); // Delete the image
+                res.send(`
+                    <script src="https://cdn.tailwindcss.com"></script>
+                    <style>
+                    .status{
+                        text-align: center;
+                        align-content: center;
+                        font-size: larger;
+                        margin: 200px auto 10px auto;
+                    }
+                    .status h1{
+                        margin: 1px auto;
+                        font-size: 30px;
+                        font-weight: 500;
+                        color: #3d3d3d;
+                    }
+                    </style>
+                    <div class = "status">
+                        <h1>No face detected in the uploaded image</h1>
+                        <p>Please upload a clear image with a proper face.</p>
+                        <button onclick="window.history.back()" type="button" class="pl-4 pr-4 text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                    <script src="https://kit.fontawesome.com/6c7c0a9da6.js" crossorigin="anonymous"></script>
+>>>>>>> e63d9fc6d6fe676c7d29e1a07d69740fb8f2867d
                 `);
         return;
       }
@@ -258,9 +287,52 @@ app.post("/searchFace", async (req, res) => {
           storedImageDescriptor
         );
 
+<<<<<<< HEAD
         // You can adjust the threshold for matching
         if (distance < 0.4) {
           matchingFileNames.push(entry.imageFileName);
+=======
+                // You can adjust the threshold for matching
+                if (distance < 0.4) {
+                    matchingFileNames.push(entry.imageFileName);
+                }
+            }
+
+            if (matchingFileNames.length > 0) {
+                console.log(matchingFileNames);
+                res.render("searchResultByFace",{
+                    matchingPeople : matchingFileNames,
+                    filename : req.file.filename
+                });
+                
+            } else {
+                 res.send(` 
+                    <script src="https://cdn.tailwindcss.com"></script>
+                    <style>
+                    .status{
+                        text-align: center;
+                        align-content: center;
+                        font-size: larger;
+                        margin: 200px auto 10px auto;
+                    }
+                    .status h1{
+                        margin: 1px auto;
+                        font-size: 30px;
+                        font-weight: 500;
+                        color: #3d3d3d;
+                    }
+                    </style>
+                    <div class = "status">
+                        <h1>No matching images found.</h1>
+                        <button onclick="window.history.back()" type="button" class="pl-4 pr-4 text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                    <script src="https://kit.fontawesome.com/6c7c0a9da6.js" crossorigin="anonymous"></script>
+                `);
+            }
+            
+>>>>>>> e63d9fc6d6fe676c7d29e1a07d69740fb8f2867d
         }
       }
 
