@@ -423,7 +423,7 @@ app.post("/verifyOtp", async (req, res) => {
           res.redirect(`/inform/${missingId}`);
         });
     }
-    otpMap.clear();
+    
   } else {
     console.log("incorrect");
     otpMap.clear();
@@ -432,6 +432,7 @@ app.post("/verifyOtp", async (req, res) => {
       status: "incorrect otp try again",
     });
   }
+  otpMap.clear();
 
   // this is working fine
 });
